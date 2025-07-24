@@ -10,7 +10,6 @@
     "files": [
         "README.md",
         "cutebot.ts",
-        "IR.cpp",
         "shims.d.ts",
         "enums.d.ts",
         "_locales/zh-TW/cutebot-strings.json",

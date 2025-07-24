@@ -88,51 +88,7 @@ namespace cuteBot {
         //% block="Right" 
         Right = DAL.MICROBIT_ID_IO_P14
     }
-    /**
-     * IR controller button
-     */
-    export enum IRButtons {
-        //% blcok="Off"
-        Off = 1,
-        //% blcok="Menu"
-        Menu = 2,
-        //% blcok="Up"
-        Up = 5,
-        //% blcok="Left"
-        Left = 8,
-        //% blcok="Right"
-        Right = 10,
-        //% blcok="Down"
-        Down = 13,
-        //% blcok="OK"
-        OK = 9,
-        //% blcok="Plus"
-        Plus = 4,
-        //% blcok="Minus"
-        Minus = 12,
-        //% blcok="Back"
-        Back = 6,
-        //% block="0"
-        Zero = 14,
-        //% block="1"
-        One = 16,
-        //% block="2"
-        Two = 17,
-        //% block="3"
-        Three = 18,
-        //% block="4"
-        Four = 20,
-        //% block="5"
-        Five = 21,
-        //% block="6"
-        Six = 22,
-        //% block="7"
-        Seven = 24,
-        //% block="8"
-        Eight = 25,
-        //% block="9"
-        Nine = 26
-    }
+
     /**
      * TODO: Set the speed of left and right wheels. 
      * @param lspeed Left wheel speed 
@@ -477,55 +433,8 @@ namespace cuteBot {
         }
 
     }
-    //% shim=IRV2::irCode
-    function irCode(): number {
-        return 0;
-    }
 
-    let IR_handling_flag = false
-    //% weight=25
-    //% block="On IR receiving"
-    export function IR_callback(handler: (code: number) => void) {
-        pins.setPull(DigitalPin.P16, PinPullMode.PullUp)
-        basic.forever(() => {
-            IR_Val = irCode()
-            if ((IR_Val == 0xff00 || (IR_Val & 0x00ff) == IRButtons.Eight
-                || (IR_Val & 0x00ff) == IRButtons.Nine
-                || (IR_Val & 0x00ff) == IRButtons.Menu
-                || (IR_Val & 0x00ff) == IRButtons.Up
-                || (IR_Val & 0x00ff) == IRButtons.Left
-                || (IR_Val & 0x00ff) == IRButtons.Right
-                || (IR_Val & 0x00ff) == IRButtons.Down
-                || (IR_Val & 0x00ff) == IRButtons.OK
-                || (IR_Val & 0x00ff) == IRButtons.Plus
-                || (IR_Val & 0x00ff) == IRButtons.Minus
-                || (IR_Val & 0x00ff) == IRButtons.Back
-                || (IR_Val & 0x00ff) == IRButtons.Zero
-                || (IR_Val & 0x00ff) == IRButtons.One
-                || (IR_Val & 0x00ff) == IRButtons.Two
-                || (IR_Val & 0x00ff) == IRButtons.Three
-                || (IR_Val & 0x00ff) == IRButtons.Four
-                || (IR_Val & 0x00ff) == IRButtons.Five
-                || (IR_Val & 0x00ff) == IRButtons.Six
-                || (IR_Val & 0x00ff) == IRButtons.Seven)
-                && IR_Val > 0xff
-            ) {
-                if (IR_Val == 0xff00)
-                    IR_Val = 0x0001
-                handler(IR_Val & 0x00ff)
-            }
-            basic.pause(20)
-        })
-    }
-    /**
-     * TODO: Get IR value
-     */
-    //% block="IR Button %Button is pressed"
-    //% weight=15
-    export function IR_Button(Button: IRButtons): boolean {
-        if (IR_Val == 0xffff) return false // over time
-        return (IR_Val & 0x00ff) == Button
-    }
+
     function initEvents(): void {
         if (_initEvents) {
             pins.setEvents(DigitalPin.P13, PinEventType.Edge);
