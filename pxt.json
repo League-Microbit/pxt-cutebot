@@ -5,7 +5,8 @@
     "license": "MIT",
     "dependencies": {
         "core": "*",
-        "neopixel": "github:elecfreaks/pxt-neopixel#v0.6.21"
+        "neopixel": "github:elecfreaks/pxt-neopixel#v0.6.21",
+        "League IR": "github:League-Microbit/pxt-leagueir#98b4e1f4de2c4cd5d731e03e3a71b23fa4abffa7"
     },
     "files": [
         "README.md",
@@ -40,7 +41,7 @@
     ],
     "public": true,
     "targetVersions": {
-        "target": "7.0.57",
+        "target": "8.0.11",
         "targetId": "microbit"
     },
     "supportedTargets": [
