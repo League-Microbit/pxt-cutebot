@@ -2,6 +2,7 @@
  * Functions to Cutebot by ELECFREAKS Co.,Ltd.
  */
 //% weight=5 color=#0fbc11  icon="\uf207" 
+
 namespace cuteBot {
     const STM8_ADDRESSS = 0x10
     let IR_Val = 0

@@ -16,6 +16,7 @@
         "shims.d.ts",
         "enums.d.ts",
         "src/main.ts",
+        "src/comm.ts",
         "_locales/zh-TW/cutebot-strings.json",
         "_locales/zh-TW/cutebot-jsdoc-strings.json",
         "_locales/zh-CN/cutebot-strings.json",
@@ -38,7 +39,9 @@
         "_locales/de-DE/cutebot-strings.json"
     ],
     "testFiles": [
-        "tests/tests.ts"
+        "tests/tests.ts",
+        "tests/testBasic.ts",
+        "tests/testIrRadio.ts"
     ],
     "public": true,
     "targetVersions": {
