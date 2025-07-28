@@ -1,18 +1,21 @@
 {
     "name": "cutebot",
     "version": "6.2.4",
-    "description": "ELECFREAKS cutebot car",
+    "description": "LEAGUE Version of ELECFREAKS cutebot car",
     "license": "MIT",
     "dependencies": {
         "core": "*",
         "neopixel": "github:elecfreaks/pxt-neopixel#v0.6.21",
-        "League IR": "github:League-Microbit/pxt-leagueir#98b4e1f4de2c4cd5d731e03e3a71b23fa4abffa7"
+        "radio-broadcast": "*",
+        "leagueir": "github:League-Microbit/pxt-leagueir#master",
+        "radiop": "github:League-Microbit/pxt-radioext#master"
     },
     "files": [
         "README.md",
-        "cutebot.ts",
+        "src/cutebot.ts",
         "shims.d.ts",
         "enums.d.ts",
+        "src/main.ts",
         "_locales/zh-TW/cutebot-strings.json",
         "_locales/zh-TW/cutebot-jsdoc-strings.json",
         "_locales/zh-CN/cutebot-strings.json",
@@ -29,15 +32,13 @@
         "_locales/ca/cutebot-strings.json",
         "_locales/pt-BR/cutebot-strings.json",
         "_locales/pt-BR/cutebot-jsdoc-strings.json",
-        "main.py",
-        "main.ts",
         "_locales/es-ES/cutebot-jsdoc-strings.json",
         "_locales/es-ES/cutebot-strings.json",
         "_locales/de-DE/cutebot-jsdoc-strings.json",
         "_locales/de-DE/cutebot-strings.json"
     ],
     "testFiles": [
-        "tests.ts"
+        "tests/tests.ts"
     ],
     "public": true,
     "targetVersions": {
