@@ -35,6 +35,7 @@ namespace bottest {
 
         animate.init();
 
+
         animate.add(new animate.AnimateHeadLight(allLights, red, 500));
         animate.add(new animate.AnimateHeadLight(allLights, green, 500));
         animate.add(new animate.AnimateHeadLight(allLights, blue, 500));
@@ -50,6 +51,12 @@ namespace bottest {
 
         animate.julyFourth()
         
+        animate.waitUntilDone();
+
+        animate.success(4);
+
+
+
         basic.pause(10000);
 
     }

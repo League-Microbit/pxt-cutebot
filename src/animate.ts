@@ -94,17 +94,24 @@ namespace animate {
     }
 
     export class Teminate extends Animation {
-    
-        constructor() {
+        private countdown: number;
+
+        constructor(countdown?: number) {
             super();
             this.aniclass = "terminate";
+            this.countdown = countdown || 0;
         }
 
         run() {
             // This animation does nothing, it just stops the current animation
-            animate.clear()
+
+            if(this.countdown <= 0) {
+                animate.clear();
+            }
+            this.countdown -= 1;
         }
     }
+
 
     function makeColor(red: number, green: number, blue: number): number{
         return (green << 16) | (red << 8) | blue;
@@ -144,6 +151,14 @@ namespace animate {
                 lastAnimation = anim;
             }
         }
+    }
+
+    export function waitUntilDone() {
+
+        while (animations.length > 0) {
+            basic.pause(100);
+        }
+     
     }
 
     export function init(){
@@ -193,6 +208,17 @@ namespace animate {
         add(new AnimateHeadLight(allLights, cuteBot.Colors.Red, 500));
     }
 
+        
+    export function success(countdown?: number) {
+        const allLights = cuteBot.RGBLights.ALL;
 
+        add(new AnimateHeadLight(allLights, cuteBot.Colors.Green, 500));
+        add(new ShowIcon(IconNames.Yes, 500));
+        if (countdown) {
+            add(new Teminate(countdown));
+        } 
+
+        
+    }
 
 }
