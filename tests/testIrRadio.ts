@@ -19,12 +19,20 @@ namespace bottest {
         });
     }
 
-    export function testRadioChannelSetup() {
+
+
+    export function testNextNecCode() {
+       
         while (true) {
-            let [channel, group] = cutecom.waitForRadioChannelSetup();
-            serial.writeLine("TRCS Channel: " + channel + ", Group: " + group);
+            basic.showIcon(IconNames.Confused);
+            let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, 2000);
+
+            let commandHigh = (command >> 8) & 0xFF;
+            let commandLow = command & 0xFF;
+
+            serial.writeLine("Address: " + address + ",Command: " + command + "  " + irlib.toHex(commandHigh) + " " + irlib.toHex(commandLow));
             pause(100);
         }
-    }
 
+    }
 }

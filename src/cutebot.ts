@@ -90,6 +90,17 @@ namespace cuteBot {
         Right = DAL.MICROBIT_ID_IO_P14
     }
 
+    export enum Colors {
+        Red = 0xFF0000,
+        Green = 0x00FF00,
+        Blue = 0x0000FF,
+        Yellow = 0xFFFF00,
+        Cyan = 0x00FFFF,
+        Magenta = 0xFF00FF,
+        White = 0xFFFFFF,
+        Black = 0x000000
+    }
+
     /**
      * TODO: Set the speed of left and right wheels. 
      * @param lspeed Left wheel speed 
@@ -248,6 +259,8 @@ namespace cuteBot {
     export function stopcar(): void {
         motors(0, 0)
     }
+
+
     /**
     * TODO: Set LED headlights.
     */

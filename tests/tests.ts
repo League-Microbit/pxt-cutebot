@@ -1,5 +1,10 @@
 
-serial.writeLine("Starting IR Radio tests...");
+//serial.writeLine("Starting IR Radio tests...");
 
 //bottest.testRadioChannelSetup();
-bottest.testInit()
+//bottest.testInit()
+
+//bottest.testNextNecCode();
+
+bottest.testAnimate
+//cutecom.init();

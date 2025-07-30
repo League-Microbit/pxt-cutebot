@@ -24,4 +24,22 @@ namespace bottest {
         cutecom.init();
         basic.showIcon(IconNames.Happy);
     }
+
+    export function testAnimate(){
+        
+        const allLights = cuteBot.RGBLights.ALL;
+        const red = cuteBot.Colors.Red;
+        const green = cuteBot.Colors.Green;
+        const blue = cuteBot.Colors.Blue;
+
+
+        animate.init();
+
+        animate.add(new animate.AnimateHeadLight(allLights, red, 500));
+        animate.add(new animate.AnimateHeadLight(allLights, green, 500));
+        animate.add(new animate.AnimateHeadLight(allLights, blue, 500));
+  
+        basic.pause(6000);
+
+    }
 }

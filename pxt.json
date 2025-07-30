@@ -17,6 +17,7 @@
         "enums.d.ts",
         "src/main.ts",
         "src/comm.ts",
+        "src/animate.ts",
         "_locales/zh-TW/cutebot-strings.json",
         "_locales/zh-TW/cutebot-jsdoc-strings.json",
         "_locales/zh-CN/cutebot-strings.json",

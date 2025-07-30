@@ -3,65 +3,61 @@ namespace cutecom {
 
     export function init(){
 
-        let [channel, group] = waitForRadioChannelSetup(-1);
+        cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Red);
+        basic.showIcon(IconNames.Confused);
+        basic.pause(100);
+        let [channel, group] = getRadioSetupFromIR();
+        
+        serial.writeLine("Initialize radio with Channel: " + channel + ", Group: " + group);
         radiop.init(channel, group);
 
-        //leagueir.onNecReceived(DigitalPin.P16, handlNecIrMessage); 
-
-    }
-
-    /* Top level handler for NEC IR messages */
-    function handlNecIrMessage(address: number, command: number) {
-        if (address == leagueir.Address.RadioChannel) {
-            let channel = (command >> 8) & 0xFF;
-            let group = command & 0xFF;
-            serial.writeLine("Radio Channel: " + channel + ", Group: " + group);  
-            radiop.setChannel(channel);
-            radiop.setGroup(group); 
-            basic.showIcon(IconNames.Triangle);         
-        }
+        negotiate.init("cutebot");
+        cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
+        basic.pause(500);
+        cuteBot.closeheadlights();
     }
 
     /**
-     * Waits for a radio channel setup message from the IR port and returns the
-     * channel and group.
-     * @param timeout The maximum time to wait for the message in milliseconds.
+     * Gets the radio setup information from the IR receiver.
      * @returns A tuple containing the channel and group.
      */
-    //%
-    export function waitForRadioChannelSetup(timeout?: number) : [number, number] {
+    export function getRadioSetupFromIR() : [number, number] {
 
-        if (timeout === undefined) {
-            timeout = 5000; // Default timeout of 2 seconds
-        }
+        let channel = undefined;
+        let group = undefined;
 
-        let forever = false; 
-        if ( timeout < 0 ) {
-            timeout = 1000; 
-            forever = true;
-        }
+        while (true) {
+            basic.showIcon(IconNames.Target);
+            let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, 2000);
 
-        while(true){
-            negotiate.radioIcon.showImage(0)
-            let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, timeout);
-
-
-            if (address == leagueir.Address.RadioChannel) {
-                let channel = (command >> 8) & 0xFF;
-                let group = command & 0xFF;
-                serial.writeLine("Address: " + address + ", Command: " + command);
-                serial.writeLine("Radio Channel: " + channel + ", Group: " + group);
-                basic.clearScreen();
-                return [channel, group];
-            } else {
-                serial.writeLine("Received address: " + address + ", command: " + command);
+            if( address == 0){0
+                serial.writeLine("Bad address from IR");
+                continue;
             }
 
-            if (!forever) {
-                return [0, 0]; // Return default values if no valid message received
+            let rcvChannel = (command >> 8) & 0xFF;
+            let rcvGroup = command & 0xFF;
+
+            if ( channel === undefined && group === undefined) {
+                serial.writeLine("Received initial channel setup: " + rcvChannel + ", " + rcvGroup);
+                channel = rcvChannel;
+                group = rcvGroup;
+            } else if (channel != rcvChannel || group != rcvGroup) {
+                serial.writeLine("Channel or group mismatch: " + channel + ", " + group + " != " + rcvChannel + ", " + rcvGroup);
+                basic.showIcon(IconNames.No);
+                channel = undefined;
+                group = undefined;
+            } else {
+                serial.writeLine("Radio Channel: " + channel + ", Group: " + group);
+                basic.showIcon(IconNames.Yes);
+                return [channel, group];
             }
         }
 
     }
+
+    
+
+
 
 }
