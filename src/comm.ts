@@ -3,7 +3,9 @@ namespace cutecom {
 
     export function init(){
 
-        cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Red);
+        animate.init();
+        animate.redThrob();
+
         basic.showIcon(IconNames.Confused);
         basic.pause(100);
         let [channel, group] = getRadioSetupFromIR();
@@ -12,7 +14,7 @@ namespace cutecom {
         radiop.init(channel, group);
 
         negotiate.init("cutebot");
-        cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
+        
         basic.pause(500);
         cuteBot.closeheadlights();
     }

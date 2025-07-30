@@ -3,23 +3,32 @@ namespace animate {
     let animations: Animation[] = [];
 
     class Animation {
-
+        // aniclass is used to check an animation needs to be explicitly
+        // stopped before starting a new one
+        public aniclass : string = "None"; 
         protected duration: number;
 
+        constructor() {
+          
+        }
         
         run() {
+
+        }
+        stop(){
 
         }
 
     }
 
     export class AnimateHeadLight extends Animation {
-
+        
         private light: cuteBot.RGBLights;
         private color: cuteBot.Colors;
 
         constructor(light: cuteBot.RGBLights, color: cuteBot.Colors, duration: number) {
             super();
+            this.aniclass = "headlights";
             this.light = light;
             this.color = color;
             this.duration = duration;
@@ -28,8 +37,77 @@ namespace animate {
         run(){
             cuteBot.colorLight(this.light, this.color);
             basic.pause(this.duration);
+        }
+        stop(){
             cuteBot.closeheadlights();
         }
+    }
+
+    export class MelodyAnimation extends Animation {
+        private sound: SoundExpression;
+
+        constructor(sound: SoundExpression) {
+            super();
+            this.aniclass = "melody";
+            this.sound = sound;
+        }
+        run() {
+            music.play(music.builtinPlayableSoundEffect(this.sound),
+                        music.PlaybackMode.UntilDone)
+        }
+
+    }
+
+    export class ShowIcon extends Animation {
+        private icon: number;
+
+        constructor(icon: number, duration: number = 1000) {
+            super();
+            this.aniclass = "showicon";
+            this.icon = icon;
+        }
+        run() {
+            basic.showIcon(this.icon);
+            basic.pause(this.duration);
+        }
+        stop() {
+            basic.clearScreen();
+        }
+    }
+
+    export class ShowImage extends Animation {
+        private image: Image;
+
+        constructor(image: Image, duration: number = 1000) {
+            super();
+            this.aniclass = "showimage";
+            this.image = image;
+            this.duration = duration;
+        }
+        run() {
+            this.image.showImage(0);
+            basic.pause(this.duration);
+        }
+        stop() {
+            basic.clearScreen();
+        }
+    }
+
+    export class Teminate extends Animation {
+    
+        constructor() {
+            super();
+            this.aniclass = "terminate";
+        }
+
+        run() {
+            // This animation does nothing, it just stops the current animation
+            animate.clear()
+        }
+    }
+
+    function makeColor(red: number, green: number, blue: number): number{
+        return (green << 16) | (red << 8) | blue;
     }
 
     export function add(animation: Animation) {
@@ -37,7 +115,12 @@ namespace animate {
     }
 
     export function clear() {
-        animations = [];
+        while (animations.length > 0) {
+            const anim: Animation = animations.pop();
+            if (anim ) {
+                anim.stop();
+            }
+        }
     }
 
     /**
@@ -45,20 +128,71 @@ namespace animate {
      */
     function run(){
 
-        while (animations.length == 0) {
-            basic.pause(100);
-        }
+        let lastAnimation: Animation = null;
+        while(true){
+            while (animations.length == 0) {
+                basic.pause(100);
+            }
+            serial.writeLine("" + animations.length + " animations running");
 
-        for (let anim of animations) {
-            anim.run();
+            
+            for (let anim of animations) {
+                if (lastAnimation && lastAnimation.aniclass !== anim.aniclass) {
+                    lastAnimation.stop();
+                }
+                anim.run();
+                lastAnimation = anim;
+            }
         }
     }
 
     export function init(){
-
         control.inBackground(run);
 
     }
+
+    /**
+     * Red lights with an intensity that goes up and down, like throbbing
+     */
+    export function redThrob() {
+        const red = cuteBot.Colors.Red;
+        const allLights = cuteBot.RGBLights.ALL;
+
+        init();
+
+        for (let i = 0; i < 255; i+= 8) {
+            add(new AnimateHeadLight(allLights, makeColor(red, i, 0), 60));
+        }
+        for( let i = 255; i >= 0; i-= 8) {
+            add(new AnimateHeadLight(allLights, makeColor(red, i, 0), 60));
+        }
+    }
+
+     /**
+      * 4th of July animation
+      * Red, white, and blue lights, then an explosion sound, then terminates
+      */
+     export function julyFourth() {
+      
+        const allLights = cuteBot.RGBLights.ALL;
+
+        add(new AnimateHeadLight(allLights, cuteBot.Colors.Red, 500));
+        add(new AnimateHeadLight(allLights, cuteBot.Colors.White, 500));
+        add(new AnimateHeadLight(allLights, cuteBot.Colors.Blue, 500));
+
+        add(new MelodyAnimation(soundExpression.spring));
+        
+        add(new Teminate());
+    }
+
+    /** Alternating yellow and red headlights */
+    export function warning() {
+        const allLights = cuteBot.RGBLights.ALL;
+
+        add(new AnimateHeadLight(allLights, cuteBot.Colors.Yellow, 500));
+        add(new AnimateHeadLight(allLights, cuteBot.Colors.Red, 500));
+    }
+
 
 
 }

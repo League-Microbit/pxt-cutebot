@@ -38,8 +38,19 @@ namespace bottest {
         animate.add(new animate.AnimateHeadLight(allLights, red, 500));
         animate.add(new animate.AnimateHeadLight(allLights, green, 500));
         animate.add(new animate.AnimateHeadLight(allLights, blue, 500));
-  
-        basic.pause(6000);
+        serial.writeLine("Added animations");
+
+        basic.pause(4000);
+
+        animate.clear();
+        animate.redThrob();
+
+        basic.pause(4000);
+        animate.clear();
+
+        animate.julyFourth()
+        
+        basic.pause(10000);
 
     }
 }
