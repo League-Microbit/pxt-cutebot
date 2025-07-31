@@ -1,10 +1,11 @@
 
 namespace cutecom {
 
+    let joyStickInit = false;
+
     export function init(){
 
-        //animate.init();
-        //animate.redThrob();
+
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Red);
 
         basic.showIcon(IconNames.Confused);
@@ -15,12 +16,15 @@ namespace cutecom {
         radiop.init(channel, group);
         negotiate.init("cutebot");
         
+        initJoyControl();
+
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
         basic.showIcon(IconNames.Happy);
         basic.pause(2000);
         basic.clearScreen();
         cuteBot.closeheadlights()
-        //animate.success(4);
+
+
     }
 
     /**
@@ -39,7 +43,7 @@ namespace cutecom {
             let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, 2000);
 
             if( address == 0){
-                serial.writeLine("Bad address from IR");
+                //serial.writeLine("Bad address from IR");
 
                 if (timeoutCount > 0) {
                     timeoutCount -= 1;
@@ -74,9 +78,19 @@ namespace cutecom {
                 basic.showIcon(IconNames.Yes);
                 return [channel, group];
             }
-            
-           
         }
+
+    }
+
+    export function initJoyControl(){
+
+        if (joyStickInit) {
+            return;
+        }
+        joyStickInit = true;
+
+        joystickp.onReceive(cutecontrol.control);
+
 
     }
 
