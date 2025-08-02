@@ -428,6 +428,7 @@ namespace cuteBot {
      */
     //% blockId=cutebot_servo block="Set servo %servo angle to %angle °"
     //% angle.shadow="protractorPicker"
+    //% group="Servo"
     //% weight=30
     export function setServo(Servo: ServoList, angle: number = 180): void {
         let buf = pins.createBuffer(4);
@@ -462,6 +463,7 @@ namespace cuteBot {
      * @returns void
      */
     //% blockId=cutebot_servo_open block="Open gripper"
+    //% group="Servo"
     //%
     export function openGripper(): void {
         cuteBot.setServo(cuteBot.ServoList.S1, 80)
@@ -472,6 +474,7 @@ namespace cuteBot {
      * @returns void
      */
     //% blockId=cutebot_servo_close  block="Close gripper"
+    //% group="Servo"
     //%
     export function closeGripper(): void {
         cuteBot.setServo(cuteBot.ServoList.S1, 30)

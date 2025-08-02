@@ -9,4 +9,4 @@ serial.writeLine("Starting Cutebot Tests");
 
 //bottest.testAnimate()
 
-cutecom.init();
+cuteBot.init();

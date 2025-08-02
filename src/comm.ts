@@ -1,8 +1,14 @@
 
-namespace cutecom {
+namespace cuteBot {
 
     let joyStickInit = false;
 
+    /**
+     * Initializes the cuteBot with default settings and prepares it for operation.
+     */
+    //% blockId=cuteBot_init block="initialize cuteBot"
+    //% weight=1
+    //% group="Initialization"
     export function init(){
 
 

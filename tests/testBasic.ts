@@ -21,7 +21,7 @@ namespace bottest {
     }
 
     export function testInit(){
-        cutecom.init();
+        cuteBot.init();
         basic.showIcon(IconNames.Happy);
     }
 
