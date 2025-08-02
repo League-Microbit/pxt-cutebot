@@ -1,14 +1,13 @@
 {
     "name": "cutebot",
-    "version": "6.2.4",
-    "description": "LEAGUE Version of ELECFREAKS cutebot car",
+    "description": "LEAGUE Version of ELECFREAKS cutebot car, with builtin suypport for Radio joysticks and IR remote control.",
     "license": "MIT",
     "dependencies": {
         "core": "*",
         "neopixel": "github:elecfreaks/pxt-neopixel#v0.6.21",
         "radio-broadcast": "*",
         "leagueir": "github:League-Microbit/pxt-leagueir#master",
-        "radiop": "github:League-Microbit/pxt-radioext#master"
+        "radioext": "github:League-Microbit/pxt-radioext#master"
     },
     "files": [
         "README.md",
