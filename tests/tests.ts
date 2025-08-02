@@ -5,8 +5,8 @@ serial.writeLine("Starting Cutebot Tests");
 //bottest.testInit()
 
 //bottest.testNextNecCode();
-bottest.testPulseIn();
+//bottest.testPulseIn();
 
 //bottest.testAnimate()
 
-//cutecom.init();
+cutecom.init();

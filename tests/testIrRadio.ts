@@ -36,40 +36,5 @@ namespace bottest {
 
     }
 
-    export function testPulseIn(){
-     
-        let pin = DigitalPin.P16;
-        pins.setPull(pin, PinPullMode.PullNone);
-        let edgeTimes: number[] = [];
-        let count = 0;
-        let lastEdge = 0;
-        let started = false;
-
-        function edgeHandler() {
-            let now = control.micros();
-            if (!started) {
-                started = true;
-                lastEdge = now;
-                count = 0;
-                return;
-            }
-            let delta = now - lastEdge;
-            lastEdge = now;
-            if (count < 50) {
-                edgeTimes[count] = delta;
-                count++;
-            }
-            if (count == 50) {
-                serial.writeLine(edgeTimes.join(" "));
-                count = 0;
-                started = false;
-            }
-        }
-        pins.onPulsed(pin, PulseValue.High, edgeHandler);
-        pins.onPulsed(pin, PulseValue.Low, edgeHandler);
-        // Keep the function alive
-        while(true) {
-            basic.pause(1000);
-        }
-    }
+   
 }

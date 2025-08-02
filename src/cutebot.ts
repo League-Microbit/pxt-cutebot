@@ -457,4 +457,21 @@ namespace cuteBot {
         }
     }
 
+    /**
+     * Open the gripper of the robot, which must be on port S1
+     * @returns void
+     */
+    //%
+    export function openGripper(): void {
+        cuteBot.setServo(cuteBot.ServoList.S1, 80)
+
+    /**
+     * Close the gripper of the robot, which must be on port S1
+     * @returns void
+     */
+    //%
+    export function closeGripper(): void {
+        cuteBot.setServo(cuteBot.ServoList.S1, 30)
+    }
+
 }
