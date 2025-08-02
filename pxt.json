@@ -1,6 +1,7 @@
 {
     "name": "cutebot",
     "description": "LEAGUE Version of ELECFREAKS cutebot car, with builtin suypport for Radio joysticks and IR remote control.",
+    "version": "0.20250802.1",
     "license": "MIT",
     "dependencies": {
         "core": "*",
