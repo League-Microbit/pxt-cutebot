@@ -20,16 +20,18 @@ namespace cuteBot {
         
         serial.writeLine("Initialize radio with Channel: " + channel + ", Group: " + group);
         radiop.init(channel, group);
-        negotiate.init("cutebot");
+        radiop.initBeacon("cutebot");
         
-        initJoyControl();
+        if (!joyStickInit) {
+            joyStickInit = true;
+            joystickp.onReceive(cutecontrol.control);
+        }
 
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
         basic.showIcon(IconNames.Happy);
         basic.pause(2000);
         basic.clearScreen();
         cuteBot.closeheadlights()
-
 
     }
 
@@ -88,16 +90,6 @@ namespace cuteBot {
 
     }
 
-    export function initJoyControl(){
 
-        if (joyStickInit) {
-            return;
-        }
-        joyStickInit = true;
-
-        joystickp.onReceive(cutecontrol.control);
-
-
-    }
 
 }
