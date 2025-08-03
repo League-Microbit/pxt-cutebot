@@ -466,7 +466,7 @@ namespace cuteBot {
     //% group="Servo"
     //%
     export function openGripper(): void {
-        cuteBot.setServo(cuteBot.ServoList.S1, 80)
+        cuteBot.setServo(cuteBot.ServoList.S1, 30)
     }
 
     /**
@@ -477,8 +477,39 @@ namespace cuteBot {
     //% group="Servo"
     //%
     export function closeGripper(): void {
-        cuteBot.setServo(cuteBot.ServoList.S1, 30)
+        cuteBot.setServo(cuteBot.ServoList.S1, 70)
     }
+
+    /**
+     * Get a unique color based on the device serial number
+     * @param scrambles Number of times to scramble the id, defaults to 1
+     * 
+     */
+    //% block="Get unique color with $scrambles scrambles of device Id"
+    //% scrambles.min=1 scrambles.max=10  scrambles.defl=1
+    //% group="Initialization"
+    export function getUniqueColor(scrambles: number = 1): number {
+        let machineId = control.deviceSerialNumber();
+
+        let scrambledId = machineId;
+        for (; scrambles > 0; scrambles--) {
+            scrambledId = radiop.murmur_32_scramble(scrambledId);
+        }
+
+        let r = (scrambledId & 0xFF0000) >> 16;
+        let g = (scrambledId & 0x00FF00) >> 8;
+        let b = (scrambledId & 0x0000FF);
+
+        return (r << 16) | (g << 8) | b; // 0xRRGGBB format
+    }
+
+    function setUniqueRunningLights() {
+        let strip = neopixel.create(DigitalPin.P15, 2, NeoPixelMode.RGB)
+        strip.setPixelColor(0, cuteBot.getUniqueColor(1))
+        strip.setPixelColor(1, cuteBot.getUniqueColor(2))
+        strip.show()
+    }
+
 
 
 }
