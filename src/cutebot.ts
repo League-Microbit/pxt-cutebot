@@ -293,7 +293,6 @@ namespace cuteBot {
     //% r.min=0 r.max=255
     //% g.min=0 g.max=255
     //% b.min=0 b.max=255
-    //% weight=60
     //% group="Lights"
     export function singleheadlights(light: RGBLights, r: number, g: number, b: number): void {
         let buf = pins.createBuffer(4);
@@ -325,7 +324,6 @@ namespace cuteBot {
     */
     //% inlineInputMode=inline
     //% block="Turn off all LED headlights"
-    //% weight=55
     //% group="Lights"
     export function closeheadlights(): void {
         let buf = pins.createBuffer(4);
@@ -346,7 +344,7 @@ namespace cuteBot {
      */
     //% block="Get unique color with $scrambles scrambles of device Id"
     //% scrambles.min=1 scrambles.max=10  scrambles.defl=1
-    //% group="Initialization"
+    //% group="Lights"
     export function getUniqueColor(scrambles: number = 1): number {
         let machineId = control.deviceSerialNumber();
 
@@ -365,7 +363,9 @@ namespace cuteBot {
     /**
      * Set the running liughts to the Microbit's unique colors.
      */
-    //%
+    //% block="Set unique running lights"
+    //% group="Lights"
+
     export function setUniqueRunningLights() {
         let strip = neopixel.create(DigitalPin.P15, 2, NeoPixelMode.RGB)
         strip.setPixelColor(0, cuteBot.getUniqueColor(1))
