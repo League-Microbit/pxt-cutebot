@@ -2,7 +2,7 @@
  * Functions to Cutebot by ELECFREAKS Co.,Ltd.
  */
 //% weight=5 color=#0fbc11  icon="\uf207" 
-
+//% groups=['Initialization', 'Control', 'Lights', 'Servo', 'Tracking', 'Sonar', 'others']
 namespace cuteBot {
     const STM8_ADDRESSS = 0x10
     let IR_Val = 0
@@ -146,6 +146,37 @@ namespace cuteBot {
                 cuteBot.displayJoyPosition(p);
             });
         }
+    }
+
+    /**
+     * Default control function for the motors from Joystick messages.
+     * @param p 
+     */
+    //% blockId=control_motors
+    //% block="control motors with joystick message $p"
+    //% group="Control"
+    export function controlMotors(p: radiop.JoyPayload): void {
+        let [lw_speed, rw_speed] = wheelSpeeds(p.x, p.y);
+        cuteBot.motors(lw_speed, rw_speed)
+    }
+
+
+
+    let lastPx: number = 0;
+    let lastPy: number = 0;
+    /**
+     * Displays the joystick position on the LED grid.
+     * @param p The joystick payload containing x and y values.
+     */
+    //% blockId=display_joy_position
+    //% block="display joystick position from $p"
+    //% group="Control"
+    export function displayJoyPosition(p: radiop.JoyPayload): void {
+        let [px, py] = pixelPosition(p.x, p.y);
+        led.unplot(lastPx, lastPy); // Clear the last position
+        led.plot(px, py)
+        lastPx = px;
+        lastPy = py;
     }
 
     /**
