@@ -124,17 +124,28 @@ namespace cuteBot {
         radiop.init(channel, group);
         radiop.initBeacon("cutebot");
 
-        if (!_joyStickInit) {
-            _joyStickInit = true;
-            radiop.onReceiveJoystickMessage(cuteBot.control_motors);
-        }
-
+        
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
         basic.showIcon(IconNames.Happy);
         basic.pause(2000);
         basic.clearScreen();
         cuteBot.closeheadlights()
 
+    }
+
+    /**
+     * Setup default motore control
+     */
+    //% blockId=cuteBot_defaultMotors block="set default motor control"
+    //% group="Initialization"
+    export function defaultMotors() {
+        if (!_joyStickInit) {
+            _joyStickInit = true;
+            radiop.onReceiveJoystickMessage(function (p: radiop.JoyPayload) {
+                cuteBot.controlMotors(p);
+                cuteBot.displayJoyPosition(p);
+            });
+        }
     }
 
     /**

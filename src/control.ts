@@ -74,19 +74,30 @@ namespace cuteBot {
         return [px, py];
     }
 
-    export function control_motors(p: radiop.JoyPayload) : void  {
-
+    /**
+     * Default control function for the motors from Joystick messages.
+     * @param p 
+     */
+    //% blockId=control_motors
+    //% block="control motors with joystick message $p"
+    //% group="Control"
+    export function controlMotors(p: radiop.JoyPayload) : void  {
         let [lw_speed, rw_speed] = wheelSpeeds(p.x, p.y);
         cuteBot.motors(lw_speed, rw_speed)
+    }
 
+    /**
+     * Displays the joystick position on the LED grid.
+     * @param p The joystick payload containing x and y values.
+     */
+    //% blockId=display_joy_position
+    //% block="display joystick position from $p"
+    //% group="Control"
+    export function displayJoyPosition(p: radiop.JoyPayload) : void {
         let [px, py] = pixelPosition(p.x, p.y);
         led.unplot(lastPx, lastPy); // Clear the last position
         led.plot(px, py)
         lastPx = px;
         lastPy = py;
-
-        // Log the control values
-        serial.writeLine(`Control: x=${p.x}, y=${p.y}, lw_speed=${lw_speed}, rw_speed=${rw_speed}, px=${px}, py=${py}`);
-
     }
 }
