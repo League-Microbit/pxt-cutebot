@@ -394,9 +394,9 @@ namespace cuteBot {
         control.inBackground(function() {
             for(let i = 0 ; i < 4; i++){
                 cuteBot.closeheadlights()
-                basic.pause(100)
+                basic.pause(250)
                 setUniqueHeadlights();
-                basic.pause(100);
+                basic.pause(250);
             }
         })
     }
