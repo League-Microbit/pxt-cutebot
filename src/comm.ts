@@ -28,6 +28,7 @@ namespace cuteBot {
                     channel = undefined;
                     group = undefined;
                 }
+                pause(100);
                 continue;
                 
             }
