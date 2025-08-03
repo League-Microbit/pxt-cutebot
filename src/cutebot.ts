@@ -9,8 +9,6 @@ namespace cuteBot {
     let _initEvents = true
     let _joyStickInit = false;
 
-
-
     /**
     * Unit of Ultrasound Module
     */
@@ -76,7 +74,7 @@ namespace cuteBot {
         right
     }
     /**
-    * Line Sensor events    MICROBIT_PIN_EVT_RISE
+    * Line Sensor events  MICROBIT_PIN_EVT_RISE
     */
     export enum MbEvents {
         //% block="Found" 
@@ -163,6 +161,18 @@ namespace cuteBot {
     export function controlMotors(p: radiop.JoyPayload): void {
         let [lw_speed, rw_speed] = wheelSpeeds(p.x, p.y);
         cuteBot.motors(lw_speed, rw_speed)
+    }
+
+    /**
+     * Control motors using the last received joystick payload
+     */
+    //% blockId=control_motors_last
+    //% block="control motors with last joystick message"
+    //% group="Control"
+    export function controlMotorsLast(): void {
+        if (radiop.lastJoyPayload) {
+            controlMotors(radiop.lastJoyPayload);
+        }
     }
 
 
