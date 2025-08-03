@@ -110,6 +110,7 @@ namespace cuteBot {
     //% lspeed.min=-100 lspeed.max=100
     //% rspeed.min=-100 rspeed.max=100
     //% weight=100
+    //% group="Motors"
     export function motors(lspeed: number = 50, rspeed: number = 50): void {
         let buf = pins.createBuffer(4);
         if (lspeed > 100) {
@@ -160,6 +161,7 @@ namespace cuteBot {
     */
     //% blockId=cutebot_move_time block="Go %dir at speed%speed\\% for %time seconds"
     //% weight=95
+    //% group="Motors"
     export function moveTime(dir: Direction, speed: number, time: number): void {
         if (dir == 0) {
             motors(speed, speed);
@@ -187,6 +189,7 @@ namespace cuteBot {
     */
     //% blockId=cutebot_forward block="Go straight at full speed"
     //% weight=90
+    //% group="Motors"
     export function forward(): void {
         // Add code here
         let buf = pins.createBuffer(4);
@@ -205,6 +208,7 @@ namespace cuteBot {
     */
     //% blockId=cutebot_back block="Reverse at full speed"
     //% weight=85
+    //% group="Motors"
     export function backforward(): void {
         // Add code here
         let buf = pins.createBuffer(4);
@@ -222,6 +226,7 @@ namespace cuteBot {
     */
     //% blockId=cutebot_left block="Turn left at full speed"
     //% weight=80
+    //% group="Motors"
     export function turnleft(): void {
         // Add code here
         let buf = pins.createBuffer(4);
@@ -239,6 +244,7 @@ namespace cuteBot {
     */
     //% blockId=cutebot_right block="Turn right at full speed"
     //% weight=75
+    //% group="Motors"
     export function turnright(): void {
         // Add code here
         let buf = pins.createBuffer(4);
@@ -256,6 +262,7 @@ namespace cuteBot {
     */
     //% blockId=cutebot_stopcar block="Stop car immediately"
     //% weight=70
+    //% group="Motors"
     export function stopcar(): void {
         motors(0, 0)
     }
@@ -266,6 +273,7 @@ namespace cuteBot {
     */
     //% block="Set LED headlights %light color $color"
     //% color.shadow="colorNumberPicker"
+    //% group="Lights"
     //% weight=65
     export function colorLight(light: RGBLights, color: number) {
         let r: number, g: number, b: number = 0
@@ -286,6 +294,7 @@ namespace cuteBot {
     //% g.min=0 g.max=255
     //% b.min=0 b.max=255
     //% weight=60
+    //% group="Lights"
     export function singleheadlights(light: RGBLights, r: number, g: number, b: number): void {
         let buf = pins.createBuffer(4);
         if (light == 3) {
@@ -317,6 +326,7 @@ namespace cuteBot {
     //% inlineInputMode=inline
     //% block="Turn off all LED headlights"
     //% weight=55
+    //% group="Lights"
     export function closeheadlights(): void {
         let buf = pins.createBuffer(4);
         buf[0] = 0x04;
@@ -328,12 +338,78 @@ namespace cuteBot {
         pins.i2cWriteBuffer(STM8_ADDRESSS, buf);
     }
 
+
+    /**
+     * Get a unique color based on the device serial number
+     * @param scrambles Number of times to scramble the id, defaults to 1
+     * 
+     */
+    //% block="Get unique color with $scrambles scrambles of device Id"
+    //% scrambles.min=1 scrambles.max=10  scrambles.defl=1
+    //% group="Initialization"
+    export function getUniqueColor(scrambles: number = 1): number {
+        let machineId = control.deviceSerialNumber();
+
+        let scrambledId = machineId;
+        for (; scrambles > 0; scrambles--) {
+            scrambledId = radiop.murmur_32_scramble(scrambledId);
+        }
+
+        let r = (scrambledId & 0xFF0000) >> 16;
+        let g = (scrambledId & 0x00FF00) >> 8;
+        let b = (scrambledId & 0x0000FF);
+
+        return (r << 16) | (g << 8) | b; // 0xRRGGBB format
+    }
+
+    /**
+     * Set the running liughts to the Microbit's unique colors.
+     */
+    //%
+    export function setUniqueRunningLights() {
+        let strip = neopixel.create(DigitalPin.P15, 2, NeoPixelMode.RGB)
+        strip.setPixelColor(0, cuteBot.getUniqueColor(1))
+        strip.setPixelColor(1, cuteBot.getUniqueColor(2))
+        strip.show()
+    }
+
+    /**
+     * Set the headlights to the Microbit's unique colors.
+     */
+    //%
+    //% block="Set unique headlights"
+    //% group="Lights"
+    export function setUniqueHeadlights(){
+        cuteBot.colorLight(cuteBot.RGBLights.RGB_R, cuteBot.getUniqueColor(1))
+        cuteBot.colorLight(cuteBot.RGBLights.RGB_L, cuteBot.getUniqueColor(2))
+    }
+
+    /**
+     * Flash the headlights with unique colors.
+     * This is useful for identifying a specific device in a group.
+     */
+    //% block="Flash unique headlights"
+    //% group="Lights"
+    export function flashUniqueHeadlights(){
+        control.inBackground(function() {
+            for(let i = 0 ; i < 4; i++){
+                cuteBot.closeheadlights()
+                basic.pause(100)
+                setUniqueHeadlights();
+                basic.pause(100);
+            }
+        })
+    }
+
+
+
     /**
     * Judging the Current Status of Tracking Module. 
     * @param state Four states of tracking module
     */
     //% blockId=ringbitcar_tracking block="Tracking state is %state"
     //% weight=50
+    //% group="Tracking"
     export function tracking(state: TrackingState): boolean {
         pins.setPull(DigitalPin.P13, PinPullMode.PullNone)
         pins.setPull(DigitalPin.P14, PinPullMode.PullNone)
@@ -364,6 +440,7 @@ namespace cuteBot {
     //% state.fieldEditor="gridpicker" state.fieldOptions.columns=2
     //% side.fieldEditor="gridpicker" side.fieldOptions.columns=2
     //% weight=45
+    //% group="Tracking"
     export function trackSide(side: MbPins, state: MbEvents): boolean {
         pins.setPull(DigitalPin.P13, PinPullMode.PullNone)
         pins.setPull(DigitalPin.P14, PinPullMode.PullNone)
@@ -392,6 +469,7 @@ namespace cuteBot {
     //% sensor.fieldEditor="gridpicker" sensor.fieldOptions.columns=2
     //% event.fieldEditor="gridpicker" event.fieldOptions.columns=2
     //% weight=40
+    //% group="Tracking"
     export function trackEvent(sensor: MbPins, event: MbEvents, handler: Action) {
         initEvents();
         control.onEvent(<number>sensor, <number>event, handler);
@@ -402,6 +480,7 @@ namespace cuteBot {
     */
     //% blockId=ultrasonic block="HC-SR04 Sonar unit %unit"
     //% weight=35
+    //% group="Sonar"
     export function ultrasonic(unit: SonarUnit, maxCmDistance = 500): number {
         // send pulse
         pins.setPull(DigitalPin.P8, PinPullMode.PullNone);
@@ -478,36 +557,6 @@ namespace cuteBot {
     //%
     export function closeGripper(): void {
         cuteBot.setServo(cuteBot.ServoList.S1, 70)
-    }
-
-    /**
-     * Get a unique color based on the device serial number
-     * @param scrambles Number of times to scramble the id, defaults to 1
-     * 
-     */
-    //% block="Get unique color with $scrambles scrambles of device Id"
-    //% scrambles.min=1 scrambles.max=10  scrambles.defl=1
-    //% group="Initialization"
-    export function getUniqueColor(scrambles: number = 1): number {
-        let machineId = control.deviceSerialNumber();
-
-        let scrambledId = machineId;
-        for (; scrambles > 0; scrambles--) {
-            scrambledId = radiop.murmur_32_scramble(scrambledId);
-        }
-
-        let r = (scrambledId & 0xFF0000) >> 16;
-        let g = (scrambledId & 0x00FF00) >> 8;
-        let b = (scrambledId & 0x0000FF);
-
-        return (r << 16) | (g << 8) | b; // 0xRRGGBB format
-    }
-
-    function setUniqueRunningLights() {
-        let strip = neopixel.create(DigitalPin.P15, 2, NeoPixelMode.RGB)
-        strip.setPixelColor(0, cuteBot.getUniqueColor(1))
-        strip.setPixelColor(1, cuteBot.getUniqueColor(2))
-        strip.show()
     }
 
 
