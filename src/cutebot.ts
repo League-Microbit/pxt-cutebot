@@ -7,6 +7,10 @@ namespace cuteBot {
     const STM8_ADDRESSS = 0x10
     let IR_Val = 0
     let _initEvents = true
+    let _joyStickInit = false;
+
+
+
     /**
     * Unit of Ultrasound Module
     */
@@ -102,6 +106,38 @@ namespace cuteBot {
     }
 
     /**
+    * Initializes the cuteBot with default settings and prepares it for operation.
+    */
+    //% blockId=cuteBot_init block="initialize cuteBot"
+    //% weight=1
+    //% group="Initialization"
+    export function init() {
+
+
+        cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Red);
+
+        basic.showIcon(IconNames.Confused);
+        basic.pause(100);
+        let [channel, group] = getRadioSetupFromIR();
+
+        serial.writeLine("Initialize radio with Channel: " + channel + ", Group: " + group);
+        radiop.init(channel, group);
+        radiop.initBeacon("cutebot");
+
+        if (!_joyStickInit) {
+            _joyStickInit = true;
+            radiop.onReceiveJoystickMessage(cuteBot.control_motors);
+        }
+
+        cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
+        basic.showIcon(IconNames.Happy);
+        basic.pause(2000);
+        basic.clearScreen();
+        cuteBot.closeheadlights()
+
+    }
+
+    /**
      * TODO: Set the speed of left and right wheels. 
      * @param lspeed Left wheel speed 
      * @param rspeed Right wheel speed
@@ -109,7 +145,6 @@ namespace cuteBot {
     //% blockId=MotorRun block="Set left wheel speed %lspeed\\% |right wheel speed %rspeed\\%"
     //% lspeed.min=-100 lspeed.max=100
     //% rspeed.min=-100 rspeed.max=100
-    //% weight=100
     //% group="Motors"
     export function motors(lspeed: number = 50, rspeed: number = 50): void {
         let buf = pins.createBuffer(4);
@@ -160,7 +195,7 @@ namespace cuteBot {
     * @param time Travel time
     */
     //% blockId=cutebot_move_time block="Go %dir at speed%speed\\% for %time seconds"
-    //% weight=95
+ 
     //% group="Motors"
     export function moveTime(dir: Direction, speed: number, time: number): void {
         if (dir == 0) {
@@ -188,7 +223,7 @@ namespace cuteBot {
     * TODO: full speed move forward,speed is 100.
     */
     //% blockId=cutebot_forward block="Go straight at full speed"
-    //% weight=90
+
     //% group="Motors"
     export function forward(): void {
         // Add code here
@@ -207,7 +242,7 @@ namespace cuteBot {
     * TODO: full speed move back,speed is -100.
     */
     //% blockId=cutebot_back block="Reverse at full speed"
-    //% weight=85
+
     //% group="Motors"
     export function backforward(): void {
         // Add code here
@@ -225,7 +260,7 @@ namespace cuteBot {
     * TODO: full speed turnleft.
     */
     //% blockId=cutebot_left block="Turn left at full speed"
-    //% weight=80
+
     //% group="Motors"
     export function turnleft(): void {
         // Add code here
@@ -243,7 +278,7 @@ namespace cuteBot {
     * TODO: full speed turnright.
     */
     //% blockId=cutebot_right block="Turn right at full speed"
-    //% weight=75
+
     //% group="Motors"
     export function turnright(): void {
         // Add code here
@@ -274,7 +309,7 @@ namespace cuteBot {
     //% block="Set LED headlights %light color $color"
     //% color.shadow="colorNumberPicker"
     //% group="Lights"
-    //% weight=65
+
     export function colorLight(light: RGBLights, color: number) {
         let r: number, g: number, b: number = 0
         r = color >> 16

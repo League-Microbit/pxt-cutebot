@@ -1,39 +1,6 @@
 
 namespace cuteBot {
 
-    let joyStickInit = false;
-
-    /**
-     * Initializes the cuteBot with default settings and prepares it for operation.
-     */
-    //% blockId=cuteBot_init block="initialize cuteBot"
-    //% weight=1
-    //% group="Initialization"
-    export function init(){
-
-
-        cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Red);
-
-        basic.showIcon(IconNames.Confused);
-        basic.pause(100);
-        let [channel, group] = getRadioSetupFromIR();
-        
-        serial.writeLine("Initialize radio with Channel: " + channel + ", Group: " + group);
-        radiop.init(channel, group);
-        radiop.initBeacon("cutebot");
-        
-        if (!joyStickInit) {
-            joyStickInit = true;
-            radiop.onReceiveJoystickMessage(cuteBot.control_motors);
-        }
-
-        cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
-        basic.showIcon(IconNames.Happy);
-        basic.pause(2000);
-        basic.clearScreen();
-        cuteBot.closeheadlights()
-
-    }
 
     /**
      * Gets the radio setup information from the IR receiver.
