@@ -124,6 +124,11 @@ namespace cuteBot {
         radiop.init(channel, group);
         radiop.initBeacon("cutebot");
 
+        // A default handler that does nothing. The upstream
+        // handler will still set lastJoyPayload so we can still 
+        // control motors and get buttons. 
+        radiop.onReceiveJoystickMessage(function (p: radiop.JoyPayload) {
+        });
         
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
         basic.showIcon(IconNames.Happy);
