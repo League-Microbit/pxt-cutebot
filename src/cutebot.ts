@@ -153,26 +153,28 @@ namespace cuteBot {
 
     /**
      * Default control function for the motors from Joystick messages.
-     * @param p 
+     * @param p Joystick payload, defaults to last received payload if not provided
      */
     //% blockId=control_motors
     //% block="control motors with joystick message $p"
     //% group="Control"
-    export function controlMotors(p: radiop.JoyPayload): void {
-        let [lw_speed, rw_speed] = wheelSpeeds(p.x, p.y);
-        cuteBot.motors(lw_speed, rw_speed)
+    export function controlMotors(p?: radiop.JoyPayload): void {
+        const payload = p || radiop.lastJoyPayload;
+        if (payload) {
+            let [lw_speed, rw_speed] = wheelSpeeds(payload.x, payload.y);
+            cuteBot.motors(lw_speed, rw_speed)
+        }
     }
 
+
     /**
-     * Control motors using the last received joystick payload
+     * Get the last received joystick payload
      */
-    //% blockId=control_motors_last
-    //% block="control motors with last joystick message"
+    //% blockId=get_last_joy_payload
+    //% block="last joystick message"
     //% group="Control"
-    export function controlMotorsLast(): void {
-        if (radiop.lastJoyPayload) {
-            controlMotors(radiop.lastJoyPayload);
-        }
+    export function getLastJoyPayload(): radiop.JoyPayload {
+        return radiop.lastJoyPayload;
     }
 
 
