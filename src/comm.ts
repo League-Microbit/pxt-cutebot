@@ -24,7 +24,7 @@ namespace cuteBot {
         
         if (!joyStickInit) {
             joyStickInit = true;
-            joystickp.onReceive(cutecontrol.control);
+            radiop.onReceiveJoystickMessage(cuteBot.control_motors);
         }
 
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);

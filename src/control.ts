@@ -1,5 +1,5 @@
 
-namespace cutecontrol {
+namespace cuteBot {
 
     let lastPx: number = 0;
     let lastPy: number = 0;
@@ -74,7 +74,7 @@ namespace cutecontrol {
         return [px, py];
     }
 
-    export function control(p: joystickp.JoyPayload) : void  {
+    export function control_motors(p: radiop.JoyPayload) : void  {
 
         let [lw_speed, rw_speed] = wheelSpeeds(p.x, p.y);
         cuteBot.motors(lw_speed, rw_speed)
