@@ -1,5 +1,5 @@
 
-serial.writeLine("Starting Cutebot Tests");
+//serial.writeLine("Starting Cutebot Tests");
 
 //bottest.testRadioChannelSetup();
 //bottest.testInit()
@@ -13,4 +13,4 @@ serial.writeLine("Starting Cutebot Tests");
 
 //cuteBot.init();
 
-cuteBot.getRadioSetupFromIR();
+//cuteBot.getRadioSetupFromIR();
