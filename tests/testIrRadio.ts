@@ -20,18 +20,20 @@ namespace bottest {
     }
 
 
+    export function testReadTwoCodes(){
+
+        serial.writeLine("Starting testReadTwoCodes");
+
+    }
 
     export function testNextNecCode() {
-       
+
         while (true) {
-            basic.showIcon(IconNames.Confused);
+          
             let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, 2000);
+            
+            serial.writeLine("Address: " + irlib.toHex(address) + ", Command: " + irlib.toHex(command)+ " " + leagueir.getIrError());
 
-            let commandHigh = (command >> 8) & 0xFF;
-            let commandLow = command & 0xFF;
-
-            serial.writeLine("Address: " + address + ",Command: " + command + "  " + irlib.toHex(commandHigh) + " " + irlib.toHex(commandLow));
-            pause(100);
         }
 
     }
