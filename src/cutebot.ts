@@ -138,7 +138,7 @@ namespace cuteBot {
     }
 
     /**
-     * Setup default motore control
+     * Setup default motor control
      */
     //% blockId=cuteBot_defaultMotors block="set default motor control"
     //% group="Initialization"

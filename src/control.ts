@@ -38,6 +38,16 @@ namespace cuteBot {
 
     }
 
+    // Now adjust the turn speed so it is less sensitive at 
+    // faster forward wheel
+    export function adjustTurnForForward(turnSpeed: number, forwardSpeed: number): number {
+        // Reduce turn speed proportional to forward speed
+        // At max forward speed (100), turn speed is reduced to 1/3
+        let forwardFactor = Math.abs(forwardSpeed) / 100; // 0 to 1
+        let turnReduction = 1 - (forwardFactor * 2/3); // 1 to 1/3
+        
+        return turnSpeed * turnReduction;
+    }
 
     /**
      * Adjust the speed to avoid very large changes. For each update, the speed should not change more than 20.
