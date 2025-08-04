@@ -19,7 +19,7 @@ namespace cuteBot {
         while (true) {
             basic.showIcon(IconNames.Target);
             
-            let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, 5000);
+            let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, timeout);
 
             if( address != 0xD00D){
                 serial.writeLine("Bad address from IR");
