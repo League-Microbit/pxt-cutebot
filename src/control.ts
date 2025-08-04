@@ -12,10 +12,10 @@ namespace cuteBot {
     /**
      * Adjust Turn speed. The default linear turn speed is too fast for useful control
      * */
-    export function adjustTurnSpeed(speed: number): number {
+    export function adjustTurnSpeed(turnSpeed: number, forwardSpeed: number): number {
         
-        let sign = speed < 0 ? -1 : 1;
-        let absSpeed = Math.abs(speed);
+        let sign = turnSpeed < 0 ? -1 : 1;
+        let absSpeed = Math.abs(turnSpeed);
         
         // for inputs from 0 to 80, scale output from 0 to 50
         // for inputs from 80 to 100, scale output from 50 to 100
@@ -25,7 +25,17 @@ namespace cuteBot {
             absSpeed = map(absSpeed, 80, 100, 50, 100);
         }
 
-        return sign * absSpeed;
+        turnSpeed =  sign * absSpeed;
+
+        // Now adjust the turn speed so it is less sensitive at 
+        // faster forward wheel
+        // Reduce turn speed proportional to forward speed
+        // At max forward speed (100), turn speed is reduced to 1/3
+        let forwardFactor = Math.abs(forwardSpeed) / 100; // 0 to 1
+        let turnReduction = 1 - (forwardFactor * 2 / 3); // 1 to 1/3
+
+        return turnSpeed * turnReduction;
+
     }
 
 
@@ -49,15 +59,11 @@ namespace cuteBot {
     export function wheelSpeeds(x: number, y: number) : [number, number] {
 
         // Convert from 0-1023 to -100 to 100
-        y = map(y - 0, 0, 1023, 0, 200) - 100 // forward/reverse
-        x = map(x - 0, 0, 1023, 200, 0) - 100 // left/right
+        let forwardSpeed = adjustSpeed(map(y - 0, 0, 1023, 0, 200) - 100) // forward/reverse
+        let turnSpeed = adjustTurnSpeed(map(x - 0, 0, 1023, 200, 0) - 100, forwardSpeed) // left/right
 
-        y = adjustSpeed(y); // Adjust forward/reverse speed
-        x = adjustTurnSpeed(x); // Adjust turn speed
-
-
-        let lw_speed = y + x
-        let rw_speed = y - x
+        let lw_speed = forwardSpeed + turnSpeed
+        let rw_speed = forwardSpeed - turnSpeed
 
         return [lw_speed, rw_speed];
 
