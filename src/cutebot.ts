@@ -125,8 +125,9 @@ namespace cuteBot {
         // A default handler that does nothing. The upstream
         // handler will still set lastJoyPayload so we can still 
         // control motors and get buttons. 
-        radiop.onReceiveJoystickMessage(function (p: radiop.JoyPayload) {
-        });
+        //radiop.onReceiveJoystickMessage(function (p: radiop.JoyPayload) {
+        //    serial.writeLine("XXX " + p.str)
+        //});
         
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
         basic.showIcon(IconNames.Happy);
@@ -189,11 +190,13 @@ namespace cuteBot {
     //% block="display joystick position from $p"
     //% group="Control"
     export function displayJoyPosition(p: radiop.JoyPayload): void {
-        let [px, py] = pixelPosition(p.x, p.y);
-        led.unplot(lastPx, lastPy); // Clear the last position
-        led.plot(px, py)
-        lastPx = px;
-        lastPy = py;
+        if(p){
+            let [px, py] = pixelPosition(p.x, p.y);
+            led.unplot(lastPx, lastPy); // Clear the last position
+            led.plot(px, py)
+            lastPx = px;
+            lastPy = py;
+        }
     }
 
     /**
