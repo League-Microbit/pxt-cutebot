@@ -19,7 +19,10 @@
         "src/comm.ts",
         "src/control.ts"
     ],
-    "testFiles": [],
+    "testFiles": [
+        "tests/tests.ts",
+        "tests/testIrRadio.ts"
+    ],
     "public": true,
     "targetVersions": {
         "target": "8.0.13",

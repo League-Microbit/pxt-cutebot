@@ -10,3 +10,5 @@
 //bottest.testAnimate()
 
 //cuteBot.init();
+
+//cuteBot.getRadioSetupFromIR();

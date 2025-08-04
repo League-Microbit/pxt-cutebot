@@ -11,36 +11,40 @@ namespace cuteBot {
         let channel = undefined;
         let group = undefined;
 
-        let timeoutCount = 0;
+        let timeout = 7000; // 7 seconds
+        let maxTime = control.millis() + timeout; // 10 seconds timeout
 
+        cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Red);
+        
         while (true) {
             basic.showIcon(IconNames.Target);
-            let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, 2000);
+            
+            let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, 1000);
 
-            if( address == 0){
-                //serial.writeLine("Bad address from IR");
+            if( address != 0xD00D){
+                serial.writeLine("Bad address from IR");
 
-                if (timeoutCount > 0) {
-                    timeoutCount -= 1;
-                } else if (channel != undefined && timeoutCount == 0) {
+                if (channel != undefined && maxTime < control.millis()) {
                     cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Red);
                     serial.writeLine("Timeout waiting for IR command");
                     channel = undefined;
                     group = undefined;
+                    maxTime = control.millis() + timeout; // reset timeout
                 }
                 pause(100);
                 continue;
-                
             }
             
+            serial.writeLine("Received IR command: " + irlib.toHex(command) + " from address: " + address);
 
             let rcvChannel = (command >> 8) & 0xFF;
             let rcvGroup = command & 0xFF;
 
             if ( channel === undefined && group === undefined) {
+                // Set the initial code, then keep waiting for the confirmation.
                 cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Yellow);
                 serial.writeLine("Received initial channel setup: " + rcvChannel + ", " + rcvGroup);
-                timeoutCount = 5;
+                maxTime = control.millis() + timeout; // reset timeout
                 channel = rcvChannel;
                 group = rcvGroup;
             } else if (channel != rcvChannel || group != rcvGroup) {
@@ -50,6 +54,7 @@ namespace cuteBot {
                 channel = undefined;
                 group = undefined;
             } else {
+                cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
                 serial.writeLine("Radio Channel: " + channel + ", Group: " + group);
                 basic.showIcon(IconNames.Yes);
                 return [channel, group];
