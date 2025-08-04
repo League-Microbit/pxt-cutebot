@@ -17,12 +17,12 @@ namespace cuteBot {
         let sign = turnSpeed < 0 ? -1 : 1;
         let absSpeed = Math.abs(turnSpeed);
         
-        // for inputs from 0 to 80, scale output from 0 to 50
-        // for inputs from 80 to 100, scale output from 50 to 100
+        // for inputs from 0 to 85, scale output from 0 to 60
+        // for inputs from 85 to 100, scale output from 60 to 100
         if (absSpeed <= 80) {
-            absSpeed = map(absSpeed, 0, 80, 0, 50);
+            absSpeed = map(absSpeed, 0, 85, 0, 60);
         } else {
-            absSpeed = map(absSpeed, 80, 100, 50, 100);
+            absSpeed = map(absSpeed, 85, 100, 60, 100);
         }
 
         turnSpeed =  sign * absSpeed;

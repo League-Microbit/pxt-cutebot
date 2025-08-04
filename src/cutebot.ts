@@ -571,6 +571,15 @@ namespace cuteBot {
         initEvents();
         control.onEvent(<number>sensor, <number>event, handler);
     }
+
+    function initEvents(): void {
+        if (_initEvents) {
+            pins.setEvents(DigitalPin.P13, PinEventType.Edge);
+            pins.setEvents(DigitalPin.P14, PinEventType.Edge);
+            _initEvents = false;
+        }
+    }
+
     /**
     * Cars can extend the ultrasonic function to prevent collisions and other functions.. 
     * @param Sonarunit two states of ultrasonic module
@@ -625,14 +634,6 @@ namespace cuteBot {
 
     }
 
-
-    function initEvents(): void {
-        if (_initEvents) {
-            pins.setEvents(DigitalPin.P13, PinEventType.Edge);
-            pins.setEvents(DigitalPin.P14, PinEventType.Edge);
-            _initEvents = false;
-        }
-    }
 
     /**
      * Open the gripper of the robot, which must be on port S1
