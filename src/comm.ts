@@ -11,15 +11,15 @@ namespace cuteBot {
         let channel = undefined;
         let group = undefined;
 
-        let timeout = 7000; // 7 seconds
-        let maxTime = control.millis() + timeout; // 10 seconds timeout
+        let timeout = 10000; // timeout in milliseconds
+        let maxTime = control.millis() + timeout;
 
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Red);
         
         while (true) {
             basic.showIcon(IconNames.Target);
             
-            let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, 1000);
+            let [address, command] = leagueir.readNecAddressCommand(DigitalPin.P16, 5000);
 
             if( address != 0xD00D){
                 serial.writeLine("Bad address from IR");
