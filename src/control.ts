@@ -113,6 +113,11 @@ namespace cuteBot {
     }
 
     // Legacy function for backward compatibility
+    //% blockId=cutebot_wheel_speeds
+    //% block="get wheel speeds from joystick x %x y %y"
+    //% x.min=0 x.max=1023
+    //% y.min=0 y.max=1023
+    //% group="Control"
     export function wheelSpeeds(x: number, y: number): [number, number] {
         let [forwardSpeed, turnSpeed, lw_speed, rw_speed] = speedController.getWheelSpeeds(x, y);
         return [lw_speed, rw_speed];
