@@ -1,12 +1,11 @@
 {
     "name": "cutebot",
-    "version": "1.20250813.6",
+    "version": "1.20250813.7",
     "description": "LEAGUE Version of ELECFREAKS cutebot extension, with builtin support for Radio joysticks and IR remote control.",
     "license": "MIT",
     "dependencies": {
         "core": "*",
         "neopixel": "github:elecfreaks/pxt-neopixel#v0.6.21",
-        "radio-broadcast": "*",
         "leagueir": "github:league-microbit/pxt-leagueir#v1.20250813.2",
         "radiop": "github:league-microbit/pxt-radioext#v1.20250813.4"
     },
