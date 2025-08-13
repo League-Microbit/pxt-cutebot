@@ -79,26 +79,16 @@ namespace cuteBot {
     //% group="Initialization"
     export function init() {
 
-
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Red);
 
-        basic.showIcon(IconNames.Confused);
-        basic.pause(100);
         let [channel, group] = getRadioSetupFromIR();
 
         radiop.init(channel, group);
         radiop.initBeacon("cutebot");
 
-        // A default handler that does nothing. The upstream
-        // handler will still set lastJoyPayload so we can still 
-        // control motors and get buttons. 
-        //radiop.onReceiveJoystickMessage(function (p: radiop.JoyPayload) {
-        //    serial.writeLine("XXX " + p.str)
-        //});
-        
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
         basic.showIcon(IconNames.Happy);
-        basic.pause(2000);
+        basic.pause(200);
         basic.clearScreen();
         cuteBot.closeheadlights()
 
@@ -114,7 +104,7 @@ namespace cuteBot {
             _joyStickInit = true;
             radiop.onReceiveJoystickMessage(function (p: radiop.JoyPayload) {
                 cuteBot.controlMotors(p);
-                //cuteBot.displayJoyPosition(p);
+        
             });
         }
     }
@@ -129,8 +119,8 @@ namespace cuteBot {
     export function controlMotors(p?: radiop.JoyPayload): void {
         const payload = p || radiop.lastJoyPayload;
         if (payload) {
-            let [lw_speed, rw_speed] = wheelSpeeds(payload.x, payload.y);
-            cuteBot.motors(lw_speed, rw_speed)
+            let [forwardSpeed, turnSpeed, lw_speed, rw_speed] = cuteBot.speedController.getWheelSpeeds(payload.x, payload.y);
+            cuteBot.motors(lw_speed, rw_speed);
         }
     }
 

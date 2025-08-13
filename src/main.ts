@@ -21,9 +21,7 @@ radiop.onReceiveJoystickMessage(function (payload) {
 // This program receives Joystick message from the Joystick transmitter and
 // 
 // controls the robot.
+
 cuteBot.setUniqueHeadlights()
 cuteBot.setUniqueRunningLights()
 cuteBot.init()
-basic.forever(function () {
-	
-})

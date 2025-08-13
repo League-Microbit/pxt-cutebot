@@ -30,6 +30,13 @@ namespace cuteBot {
         }
 
         /**
+         * Set turn speed breakpoints
+         */
+        public setTurnBreakpoints(inputBp: number, outputBp: number): void {
+            this.tsInBp = inputBp;
+            this.tsOutBp = outputBp;
+        }
+        /**
          * Adjust Turn speed. The default linear turn speed is too fast for useful control
          */
         private adjustTurnSpeed(turnSpeed: number, forwardSpeed: number): number {
@@ -85,17 +92,11 @@ namespace cuteBot {
             return [forwardSpeed, turnSpeed, lw_speed, rw_speed];
         }
 
-        /**
-         * Set turn speed breakpoints
-         */
-        public setTurnBreakpoints(inputBp: number, outputBp: number): void {
-            this.tsInBp = inputBp;
-            this.tsOutBp = outputBp;
-        }
+
     }
 
     // Global instance for backward compatibility
-    let speedController = new SpeedController();
+    export let speedController = new SpeedController();
 
     /**
      * Set a new speed controller instance
@@ -112,16 +113,7 @@ namespace cuteBot {
         return speedController;
     }
 
-    // Legacy function for backward compatibility
-    //% blockId=cutebot_wheel_speeds
-    //% block="get wheel speeds from joystick x %x y %y"
-    //% x.min=0 x.max=1023
-    //% y.min=0 y.max=1023
-    //% group="Control"
-    export function wheelSpeeds(x: number, y: number): [number, number] {
-        let [forwardSpeed, turnSpeed, lw_speed, rw_speed] = speedController.getWheelSpeeds(x, y);
-        return [lw_speed, rw_speed];
-    }
+
 
     /**
      *  Converts joystick x and y values to pixel positions on the LED grid.
