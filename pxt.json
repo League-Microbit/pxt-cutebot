@@ -11,10 +11,12 @@
     },
     "files": [
         "README.md",
+        "main.blocks", 
         "shims.d.ts",
         "enums.d.ts",
         "src/cutebot.ts",
         "src/main.ts",
+        
         "src/comm.ts",
         "src/control.ts"
     ],
