@@ -1,5 +1,22 @@
 namespace cuteBot {
 
+        /**
+    * Status List of Tracking Modules
+    */
+    export enum TrackingState {
+        //% block="● ●" enumval=0
+        L_R_line,
+
+        //% block="◌ ●" enumval=1
+        L_unline_R_line,
+
+        //% block="● ◌" enumval=2
+        L_line_R_unline,
+
+        //% block="◌ ◌" enumval=3
+        L_R_unline
+    }
+
     let _initEvents = true
 
     /**

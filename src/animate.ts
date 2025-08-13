@@ -1,5 +1,25 @@
 namespace animate {
 
+
+    let lastPx: number = 0;
+    let lastPy: number = 0;
+    /**
+     * Displays the joystick position on the LED grid.
+     * @param p The joystick payload containing x and y values.
+     */
+    //% blockId=display_joy_position
+    //% block="display joystick position from $p"
+    //% group="Control"
+    export function displayJoyPosition(p: radiop.JoyPayload): void {
+        if(p){
+            let [px, py] = pixelPosition(p.x, p.y);
+            led.unplot(lastPx, lastPy); // Clear the last position
+            led.plot(px, py)
+            lastPx = px;
+            lastPy = py;
+        }
+    }
+
     let animations: Animation[] = [];
 
     class Animation {

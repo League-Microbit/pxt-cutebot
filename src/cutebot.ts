@@ -47,22 +47,7 @@ namespace cuteBot {
         //% blockId="ALL" block="ALL"
         ALL = 3
     }
-    /**
-    * Status List of Tracking Modules
-    */
-    export enum TrackingState {
-        //% block="● ●" enumval=0
-        L_R_line,
 
-        //% block="◌ ●" enumval=1
-        L_unline_R_line,
-
-        //% block="● ◌" enumval=2
-        L_line_R_unline,
-
-        //% block="◌ ◌" enumval=3
-        L_R_unline
-    }
     export enum Direction {
         //% block="Forward" enumval=0
         forward,
@@ -147,7 +132,7 @@ namespace cuteBot {
             _joyStickInit = true;
             radiop.onReceiveJoystickMessage(function (p: radiop.JoyPayload) {
                 cuteBot.controlMotors(p);
-                cuteBot.displayJoyPosition(p);
+                //cuteBot.displayJoyPosition(p);
             });
         }
     }
@@ -180,24 +165,6 @@ namespace cuteBot {
 
 
 
-    let lastPx: number = 0;
-    let lastPy: number = 0;
-    /**
-     * Displays the joystick position on the LED grid.
-     * @param p The joystick payload containing x and y values.
-     */
-    //% blockId=display_joy_position
-    //% block="display joystick position from $p"
-    //% group="Control"
-    export function displayJoyPosition(p: radiop.JoyPayload): void {
-        if(p){
-            let [px, py] = pixelPosition(p.x, p.y);
-            led.unplot(lastPx, lastPy); // Clear the last position
-            led.plot(px, py)
-            lastPx = px;
-            lastPy = py;
-        }
-    }
 
     /**
      * TODO: Set the speed of left and right wheels. 
