@@ -443,18 +443,37 @@ namespace cuteBot {
     //% scrambles.min=1 scrambles.max=10  scrambles.defl=1
     //% group="Lights"
     export function getUniqueColor(scrambles: number = 1): number {
-        let machineId = control.deviceSerialNumber();
-
-        let scrambledId = machineId;
-        for (; scrambles > 0; scrambles--) {
-            scrambledId = radiop.murmur_32_scramble(scrambledId);
+        let id = control.deviceSerialNumber();
+        let v = id;
+        for (let i = 0; i < scrambles; i++) {
+            v = radiop.murmur_32_scramble(v);
         }
 
-        let r = (scrambledId & 0xFF0000) >> 16;
-        let g = (scrambledId & 0x00FF00) >> 8;
-        let b = (scrambledId & 0x0000FF);
+        // Using HSV to get a broader range of colors while
+        // keeping the brightness and saturation high.
 
-        return (r << 16) | (g << 8) | b; // 0xRRGGBB format
+        // Derive HSV components from scrambled value
+        let hue = v % 360;                               // 0-359
+        let sat = 0.6 + (((v >> 3) & 0x3F) / 0x3F) * 0.4; // 0.6 - 1.0
+        let val = 0.7 + (((v >> 9) & 0x1F) / 0x1F) * 0.3; // 0.7 - 1.0
+
+        // HSV -> RGB (0-255)
+        let c = val * sat;
+        let hp = hue / 60;
+        let x = c * (1 - Math.abs((hp % 2) - 1));
+        let r1 = 0, g1 = 0, b1 = 0;
+        if (hp < 1) { r1 = c; g1 = x; }
+        else if (hp < 2) { r1 = x; g1 = c; }
+        else if (hp < 3) { g1 = c; b1 = x; }
+        else if (hp < 4) { g1 = x; b1 = c; }
+        else if (hp < 5) { r1 = x; b1 = c; }
+        else { r1 = c; b1 = x; }
+        let m = val - c;
+        let r = Math.round((r1 + m) * 255) & 0xFF;
+        let g = Math.round((g1 + m) * 255) & 0xFF;
+        let b = Math.round((b1 + m) * 255) & 0xFF;
+
+        return (r << 16) | (g << 8) | b;
     }
 
     /**
