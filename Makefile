@@ -14,9 +14,8 @@ build:
 deploy:
 	GITHUB_ACCESS_TOKEN=$(GITHUB_TOKEN) PXT_FORCE_LOCAL=1 pxt deploy
 
-
 test:
-	pxt test
+	GITHUB_ACCESS_TOKEN=$(GITHUB_TOKEN) PXT_FORCE_LOCAL=1 pxt deploy
 
 
 push: build 
