@@ -11,7 +11,6 @@
     },
     "files": [
         "README.md",
-        "main.blocks", 
         "shims.d.ts",
         "enums.d.ts",
         "src/cutebot.ts",
