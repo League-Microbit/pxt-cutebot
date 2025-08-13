@@ -6,7 +6,7 @@
     "dependencies": {
         "core": "*",
         "neopixel": "github:elecfreaks/pxt-neopixel#v0.6.21",
-        "leagueir": "github:league-microbit/pxt-leagueir#v1.20250813.2",
+        "leagueir": "github:league-microbit/pxt-leagueir#v1.20250813.4",
         "radiop": "github:league-microbit/pxt-radioext#v1.20250813.6"
     },
     "files": [

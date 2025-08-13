@@ -44,7 +44,6 @@ namespace cuteBot {
         channel = (command >> 8) & 0xFF;
         group = command & 0xFF;
 
-        serial.writeLine("Radio Channel: " + channel + ", Group: " + group);
         basic.showIcon(IconNames.Yes);
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
 

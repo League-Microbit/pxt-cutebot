@@ -58,24 +58,7 @@ namespace cuteBot {
         //% block="Right" enumval=3
         right
     }
-    /**
-    * Line Sensor events  MICROBIT_PIN_EVT_RISE
-    */
-    export enum MbEvents {
-        //% block="Found" 
-        FindLine = DAL.MICROBIT_PIN_EVT_FALL,
-        //% block="Lost" 
-        LoseLine = DAL.MICROBIT_PIN_EVT_RISE
-    }
-    /**
-     * Pins used to generate events
-     */
-    export enum MbPins {
-        //% block="Left" 
-        Left = DAL.MICROBIT_ID_IO_P13,
-        //% block="Right" 
-        Right = DAL.MICROBIT_ID_IO_P14
-    }
+
 
     export enum Colors {
         Red = 0xFF0000,
@@ -103,7 +86,6 @@ namespace cuteBot {
         basic.pause(100);
         let [channel, group] = getRadioSetupFromIR();
 
-        serial.writeLine("Initialize radio with Channel: " + channel + ", Group: " + group);
         radiop.init(channel, group);
         radiop.initBeacon("cutebot");
 

@@ -12,7 +12,7 @@ namespace animate {
     //% group="Control"
     export function displayJoyPosition(p: radiop.JoyPayload): void {
         if(p){
-            let [px, py] = pixelPosition(p.x, p.y);
+            let [px, py] = [0,0] // pixelPosition(p.x, p.y);
             led.unplot(lastPx, lastPy); // Clear the last position
             led.plot(px, py)
             lastPx = px;
