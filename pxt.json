@@ -1,6 +1,6 @@
 {
     "name": "cutebot",
-    "version": "1.20250813.9",
+    "version": "1.20250813.10",
     "description": "LEAGUE Version of ELECFREAKS cutebot extension, with builtin support for Radio joysticks and IR remote control.",
     "license": "MIT",
     "dependencies": {
@@ -14,7 +14,6 @@
         "shims.d.ts",
         "enums.d.ts",
         "src/cutebot.ts",
-        "src/main.ts",
         "src/comm.ts",
         "src/control.ts"
     ],
