@@ -22,6 +22,7 @@ radiop.onReceiveJoystickMessage(function (payload) {
 // 
 // controls the robot.
 
+serial.writeLine('====')
 cuteBot.setUniqueHeadlights()
 cuteBot.setUniqueRunningLights()
 cuteBot.init()
