@@ -33,13 +33,9 @@ radiop.onReceiveJoystickMessage(function (payload) {
     }
     cuteBot.controlMotors(payload)
 })
-// Cutebot Receiver
-// 
-// This program receives Joystick message from the Joystick transmitter and
-// 
-// controls the robot.
 
 serial.writeLine('== PXT Cutebot System Test ==')
+basic.pause(500)
 cuteBot.setUniqueHeadlights()
 cuteBot.setUniqueRunningLights()
 cuteBot.init()
