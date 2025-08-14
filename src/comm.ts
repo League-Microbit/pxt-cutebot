@@ -8,8 +8,6 @@ namespace cuteBot {
      */
     export function getRadioSetupFromIR() : [number, number] {
 
-        serial.writeLine("Getting radio setup from IR.");
-
         let channel = undefined;
         let group = undefined;
 
