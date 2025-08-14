@@ -33,6 +33,7 @@ radiop.onReceiveJoystickMessage(function (payload) {
         cuteBot.setUniqueHeadlights()
     }
     cuteBot.controlMotors(payload)
+    //radiop.sendBotStatus(0, 0, 0, 0);
 })
 
 serial.writeLine('== PXT Cutebot System Test ==')
