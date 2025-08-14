@@ -15,14 +15,13 @@
         "enums.d.ts",
         "src/cutebot.ts",
         "src/main.ts",
-        
         "src/comm.ts",
         "src/control.ts"
     ],
     "testFiles": [],
     "public": true,
     "targetVersions": {
-        "target": "8.0.13",
+        "target": "8.0.15",
         "targetId": "microbit"
     },
     "supportedTargets": [
