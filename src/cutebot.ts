@@ -9,6 +9,9 @@ namespace cuteBot {
 
     let _joyStickInit = false;
 
+    let uColor1 =  cuteBot.getUniqueColor(1);
+    let uColor2 =  cuteBot.getUniqueColor(2);
+
     /**
     * Unit of Ultrasound Module
     */
@@ -423,8 +426,8 @@ namespace cuteBot {
 
     export function setUniqueRunningLights() {
         let strip = neopixel.create(DigitalPin.P15, 2, NeoPixelMode.RGB)
-        strip.setPixelColor(0, cuteBot.getUniqueColor(1))
-        strip.setPixelColor(1, cuteBot.getUniqueColor(2))
+        strip.setPixelColor(0, uColor1)
+        strip.setPixelColor(1, uColor2)
         strip.show()
     }
 
@@ -435,8 +438,8 @@ namespace cuteBot {
     //% block="Set unique headlights"
     //% group="Lights"
     export function setUniqueHeadlights(){
-        cuteBot.colorLight(cuteBot.RGBLights.RGB_R, cuteBot.getUniqueColor(1))
-        cuteBot.colorLight(cuteBot.RGBLights.RGB_L, cuteBot.getUniqueColor(2))
+        cuteBot.colorLight(cuteBot.RGBLights.RGB_R, uColor1)
+        cuteBot.colorLight(cuteBot.RGBLights.RGB_L, uColor2)
     }
 
     /**
