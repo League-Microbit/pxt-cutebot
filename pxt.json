@@ -7,7 +7,7 @@
         "core": "*",
         "neopixel": "github:elecfreaks/pxt-neopixel#v0.6.21",
         "leagueir": "github:league-microbit/pxt-leagueir#v1.20250813.5",
-        "radiop": "github:league-microbit/pxt-radioext#v1.20250813.7"
+        "radiop": "github:league-microbit/pxt-radioext#v1.20250814.2"
     },
     "files": [
         "README.md",

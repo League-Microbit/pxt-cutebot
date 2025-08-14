@@ -28,6 +28,7 @@ radiop.onReceiveJoystickMessage(function (payload) {
         cuteBot.colorLight(cuteBot.RGBLights.ALL, 0x0000ff)
     } else if (radiop.buttonPressed(radiop.JoystickButton.Logo)) {
         cuteBot.flashUniqueHeadlights()
+        serial.writeLine(payload.buttons.join(", "));
     } else {
         cuteBot.setUniqueHeadlights()
     }

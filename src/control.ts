@@ -40,25 +40,14 @@ namespace cuteBot {
          * Adjust Turn speed. The default linear turn speed is too fast for useful control
          */
         private adjustTurnSpeed(turnSpeed: number, forwardSpeed: number): number {
-            let sign = turnSpeed < 0 ? -1 : 1;
-            let absSpeed = Math.abs(turnSpeed);
-            
-            // for inputs from 0 to 80, scale output from 0 to 60
-            // for inputs from 80 to 100, scale output from 60 to 100
-            if (absSpeed <= this.tsInBp) {
-                absSpeed = map(absSpeed, 0, this.tsInBp, 0, this.tsOutBp);
-            } else {
-                absSpeed = map(absSpeed, this.tsInBp, 100, this.tsOutBp, 100);
-            }
-
-            turnSpeed = sign * absSpeed;
+           
 
             // Reduce turn speed proportional to forward speed
             // At max forward speed (100), turn speed is reduced to 1/3
             let forwardFactor = Math.abs(forwardSpeed) / 100; // 0 to 1
             let turnReduction = 1 - (forwardFactor * 2 / 3); // 1 to 1/3
 
-            return turnSpeed * turnReduction;
+            return turnSpeed * turnReduction / 4;
         }
 
         /**

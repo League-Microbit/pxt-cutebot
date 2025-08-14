@@ -442,6 +442,7 @@ namespace cuteBot {
         cuteBot.colorLight(cuteBot.RGBLights.RGB_L, uColor2)
     }
 
+    let isBlinking = false;
     /**
      * Flash the headlights with unique colors.
      * This is useful for identifying a specific device in a group.
@@ -449,13 +450,19 @@ namespace cuteBot {
     //% block="Flash unique headlights"
     //% group="Lights"
     export function flashUniqueHeadlights(){
+
+        if(isBlinking) return; // Prevent multiple calls
+        
         control.inBackground(function() {
+            isBlinking = true;
+           
             for(let i = 0 ; i < 4; i++){
                 cuteBot.closeheadlights()
                 basic.pause(250)
                 setUniqueHeadlights();
                 basic.pause(250);
             }
+            isBlinking = false;
         })
     }
 
