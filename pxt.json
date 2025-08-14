@@ -17,7 +17,9 @@
         "src/comm.ts",
         "src/control.ts"
     ],
-    "testFiles": [],
+    "testFiles": [
+        "tests/tests.ts"
+    ],
     "public": true,
     "targetVersions": {
         "target": "8.0.15",
