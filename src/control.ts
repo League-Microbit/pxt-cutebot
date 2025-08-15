@@ -1,105 +1,29 @@
 
 namespace cuteBot {
 
+    let _lastSpeed = 0;
+
+
+
     // Utility function for mapping values
     export function map(input: number, minIn: number, maxIn: number, minOut: number, maxOut: number): number {
         return (input - minIn) * (maxOut - minOut) / (maxIn - minIn) + minOut;
     }
 
-    /**
-     * SpeedController class to manage wheel speeds based on joystick input. It
-     * provides methods to adjust turn speed, smooth speed changes, and convert
-     * joystick input to wheel speeds.
-     */
-    export class SpeedController {
-        private lastSpeed: number = 0;
-        private tsInBp: number; // Turn speed input breakpoint
-        private tsOutBp: number; // Turn speed output breakpoint
-        private enableSpeedSmoothing: boolean = false;
-  
-        /**
-         * Constructor for SpeedController
-         * The breakpoints define two linear ramps, one below the two 
-         * breakpoints and one above. 
-         * @param tsInBp Turn speed input breakpoint, default is 80
-         * @param tsOutBp Turn speed output breakpoint, default is 60   
-         */
-        constructor(tsInBp: number = 80, tsOutBp: number = 60) {
-            this.tsInBp = tsInBp;
-            this.tsOutBp = tsOutBp;
-        }
 
-        /**
-         * Set turn speed breakpoints
-         */
-        public setTurnBreakpoints(inputBp: number, outputBp: number): void {
-            this.tsInBp = inputBp;
-            this.tsOutBp = outputBp;
-        }
-        /**
-         * Adjust Turn speed. The default linear turn speed is too fast for useful control
-         */
-        private adjustTurnSpeed(turnSpeed: number, forwardSpeed: number): number {
-           
+    /** Convert joystick (x,y) (0..1023) to forward, turn, left wheel, right wheel speeds (-100..100) */
+    export function getWheelSpeeds(x: number, y: number): [number, number, number, number] {
+        let forwardSpeed = cuteBot.map(y, 0, 1023, 0, 200) - 100;
+        let turnSpeed = cuteBot.map(x, 0, 1023, 200, 0) - 100;
 
-            // Reduce turn speed proportional to forward speed
-            // At max forward speed (100), turn speed is reduced to 1/3
-            let forwardFactor = Math.abs(forwardSpeed) / 100; // 0 to 1
-            let turnReduction = 1 - (forwardFactor * 2 / 3); // 1 to 1/3
+        let turnReduction  = cuteBot.map( Math.abs(forwardSpeed), 0, 100, 1/3, 1/6);
 
-            return turnSpeed * turnReduction / 4;
-        }
+        turnSpeed = turnSpeed * turnReduction;
 
-        /**
-         * Adjust the speed to avoid very large changes. For each update, the
-         * speed should not change more than 20.
-         */
-        private adjustSpeed(speed: number): number {
-            if (this.enableSpeedSmoothing) {
-                let diff = speed - this.lastSpeed;
-                let aDiff = Math.min(Math.abs(diff), 20);
+        let lw_speed = forwardSpeed + turnSpeed;
+        let rw_speed = forwardSpeed - turnSpeed;
 
-                let newSpeed = this.lastSpeed + (diff < 0 ? -aDiff : aDiff);
-                this.lastSpeed = newSpeed;
-                return newSpeed;
-            }
-
-            return speed;
-        }
-
-        /**
-         * Primary interface: convert joystick (x,y) to left and right wheel speeds
-         */
-        public getWheelSpeeds(x: number, y: number): [number, number, number, number] {
-            // Convert from 0-1023 to -100 to 100
-            let forwardSpeed = this.adjustSpeed(map(y - 0, 0, 1023, 0, 200) - 100); // forward/reverse
-            let turnSpeed = this.adjustTurnSpeed(map(x - 0, 0, 1023, 200, 0) - 100, forwardSpeed); // left/right
-
-            let lw_speed = forwardSpeed + turnSpeed;
-            let rw_speed = forwardSpeed - turnSpeed;
-
-            return [forwardSpeed, turnSpeed, lw_speed, rw_speed];
-        }
-
-
-    }
-
-    // Global instance for backward compatibility
-    export let speedController = new SpeedController();
-
-    /**
-     * Set a new speed controller instance
-     * @param controller SpeedController instance to use
-     */
-    export function setSpeedController(controller: SpeedController): void {
-        speedController = controller;
-    }
-
-    /**
-     * Get the current speed controller instance
-     */
-    export function getSpeedController(): SpeedController {
-        return speedController;
+        return [forwardSpeed, turnSpeed, lw_speed, rw_speed];
     }
 
 

@@ -122,7 +122,7 @@ namespace cuteBot {
     export function controlMotors(p?: radiop.JoyPayload): void {
         const payload = p || radiop.lastJoyPayload;
         if (payload) {
-            let [forwardSpeed, turnSpeed, lw_speed, rw_speed] = cuteBot.speedController.getWheelSpeeds(payload.x, payload.y);
+            let [forwardSpeed, turnSpeed, lw_speed, rw_speed] = cuteBot.getWheelSpeeds(payload.x, payload.y);
             cuteBot.motors(lw_speed, rw_speed);
         }
     }
