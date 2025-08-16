@@ -87,7 +87,7 @@ namespace cuteBot {
         let [channel, group] = getRadioSetupFromIR();
 
         radiop.init(channel, group);
-        radiop.initBeacon("cutebot");
+        radiop.initBeacon(radiop.DeviceClass.CUTEBOT);
 
         cuteBot.colorLight(cuteBot.RGBLights.ALL, cuteBot.Colors.Green);
         basic.showIcon(IconNames.Happy);
