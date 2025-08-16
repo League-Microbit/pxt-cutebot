@@ -1,6 +1,6 @@
 {
     "name": "cutebot",
-    "version": "1.20250814.9",
+    "version": "1.20250816.1",
     "description": "LEAGUE Version of ELECFREAKS cutebot extension, with builtin support for Radio joysticks and IR remote control.",
     "license": "MIT",
     "dependencies": {
