@@ -129,15 +129,7 @@ namespace cuteBot {
     }
 
 
-    /**
-     * Get the last received joystick payload
-     */
-    //% blockId=get_last_joy_payload
-    //% block="last joystick message"
-    //% group="Control"
-    export function getLastJoyPayload(): radiop.JoyPayload {
-        return radiop.lastJoyPayload;
-    }
+
 
 
 
