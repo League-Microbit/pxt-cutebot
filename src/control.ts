@@ -3,13 +3,10 @@ namespace cuteBot {
 
     let _lastSpeed = 0;
 
-
-
     // Utility function for mapping values
     export function map(input: number, minIn: number, maxIn: number, minOut: number, maxOut: number): number {
         return (input - minIn) * (maxOut - minOut) / (maxIn - minIn) + minOut;
     }
-
 
     /** Convert joystick (x,y) (0..1023) to forward, turn, left wheel, right wheel speeds (-100..100) */
     export function getWheelSpeeds(x: number, y: number): [number, number, number, number] {
